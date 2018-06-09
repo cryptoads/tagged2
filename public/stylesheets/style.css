@@ -197,7 +197,7 @@ li.nav-item  a.nav-link:before {
   bottom: 0;
   
   /* The image used */
-  background-image: url("./background.jpg");  
+  background-image: url("/img/background.jpg");  
   /* Full height */
  
   /* Center and scale the image nicely */
