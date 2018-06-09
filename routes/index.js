@@ -11,20 +11,23 @@ var user = models.user.findOne().then(function(user){
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-    models.user.findById(1)
+    models.user.findById(1,{
+        include: [
+            models.message
+        ]
+    })
     .then( user =>{
-        models.message.findById(1)
-            .then(message => {
-                models.tag.findById(1)
-                    .then(tag => {
-                            res.render ('index', {
-                            title: 'tagged',
-                            user: user.username,
-                            message: message.message,
-                            tag: tag.tagnum
-                    })
+        models.tag.findById(1)
+        .then(tag => {
+            res.render('index', {
+                title: 'tagged',
+                user: user.username,
+                //use handlebars to show all messages related to user
+                message: user.messages[0].message,
+                tag: tag.tagnum
             })
         })
+
     })
 });
 

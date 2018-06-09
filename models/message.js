@@ -4,7 +4,7 @@ module.exports = (sequelize, DataTypes) => {
     message: DataTypes.STRING
   }, {});
   message.associate = function(models) {
-    // associations can be defined here
+    message.belongsTo(models.user);
   };
   return message;
 };
