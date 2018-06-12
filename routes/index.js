@@ -1,14 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var models = require('../models');
-
-
-var user = models.user.findOne().then(function(user){
-    console.log(user.username)
-    return user.username;
-})
-
-
+const ensureAuthenticated = require('../auth').ensureAuthenticated;
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -20,15 +13,29 @@ router.get('/', function(req, res, next) {
                     .then(tag => {
                      res.render('index',
                      {
-                            title: 'tagged',
-                            user: user.username,
+                            isLoggedIn: req.isAuthenticated(),
                             //use handlebars to show all messages related to user
-                            message: user.messages[0].message,
-                            tag: tag.tagnum
+                            message: JSON.stringify(user.messages),
             })
         })
 
     })
+});
+
+
+router.get('/test', (req,res) =>{ 
+     models.user.findAll({
+        include: [{
+        model: models.tag,
+         through: {
+      attributes: ['tagId', 'userId'],
+      where: {userId: 1}
+    }
+  }]}).then(user => {
+    res.render('error', {
+        message: JSON.stringify(user[0].tags)
+    })
+})
 });
 
 
@@ -47,10 +54,6 @@ router.get('/:state/:id', (req, res) => {
     })
 });
 
-
-router.post('/:id', (req, res) => {
-
-})
 
 
 module.exports = router;
