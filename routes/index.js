@@ -5,7 +5,8 @@ const ensureAuthenticated = require('../auth').ensureAuthenticated;
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-    models.user.findById(1,{
+    if(req.isAuthenticated()){    
+        models.user.findById(req.user,{
         include: [models.message]
                 })
                 .then( user =>{
@@ -13,13 +14,15 @@ router.get('/', function(req, res, next) {
                     .then(tag => {
                      res.render('index',
                      {
-                            isLoggedIn: req.isAuthenticated(),
-                            //use handlebars to show all messages related to user
-                            message: JSON.stringify(user.messages),
+                        isLoggedIn: req.isAuthenticated(),
+                        //use handlebars to show all messages related to user
+                        message: JSON.stringify(user.messages),
+                })
             })
-        })
 
-    })
+    })}else{
+                res.render('index')
+            }
 });
 
 
@@ -29,11 +32,13 @@ router.get('/test', (req,res) =>{
         model: models.tag,
          through: {
       attributes: ['tagId', 'userId'],
-      where: {userId: 1}
-    }
-  }]}).then(user => {
-    res.render('error', {
-        message: JSON.stringify(user[0].tags)
+      where: {userId: req.user}
+         }
+     }]
+ })
+    .then(user => {
+        res.render('error', {
+            message: JSON.stringify(user[0].tags)
     })
 })
 });
