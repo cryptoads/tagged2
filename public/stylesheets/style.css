@@ -3,7 +3,7 @@ body {
   font-family: 'Nunito Sans', sans-serif;
   font-weight: 400;
   font-size: 13px;
-  background-color: #2d3a52;
+  background-color: #2e3b53;
   height: 100%;
 }
 
@@ -12,13 +12,13 @@ li.nav-item  a.nav-link:focus {
 }
 
 li.nav-item  a.nav-link {
-  color: rgb(51, 130, 175);
+  color: #2e3b53;
   position: relative;
   text-decoration: none;
 }
 
 li.nav-item  a.nav-link:hover {
-    color: rgb(51, 130, 175);
+    color: #2e3b53;
   }
 
   li.nav-item  a.nav-link:hover:before {
@@ -34,7 +34,7 @@ li.nav-item  a.nav-link:before {
     height: 2px;
     bottom: 0;
     left: 0;
-    background-color: rgb(141, 4, 153);
+    background-color: #acd6eb;
     visibility: hidden;
     -webkit-transform: scaleX(0);
     transform: scaleX(0);
@@ -51,8 +51,8 @@ li.nav-item  a.nav-link:before {
         display: flex;
         justify-content: end;
         padding-right: 0px;
-        padding-top: 15px;
-        padding-bottom: 15px;
+        padding-top: 0px;
+        padding-bottom: 0px;
         
     }
     img.logo-small  {
@@ -62,7 +62,7 @@ li.nav-item  a.nav-link:before {
     div.msg-container {
         height: 610px;
         top: 0;  
-        background-position: center; 
+        background-position: right; 
     }
 
     h4 {
@@ -70,25 +70,20 @@ li.nav-item  a.nav-link:before {
     }
 
     div.headline {
-        padding-top: 18%;
+        padding-top: 16%;
         width: 100%;
         position: absolute;
-        right: 0px;
+        left: 0px;
         display: flex;
         height: 815px;
         flex-direction: column;
-        align-items: center;
+        /* align-items: end; */
+        justify-content: end;
     }
 
-    h4 {
-        text-align: center;
+    h4, h6, h3 {
+        text-align: right;
       }
-    
-    
-      h6 {
-        text-align: center;
-      }
-    
 }
 
 @media screen and (min-width: 0px) and (max-width: 450px){
@@ -100,12 +95,13 @@ li.nav-item  a.nav-link:before {
         height: 760px; 
         background-position: right;
     }
+
     h4 {
         font-size: 34px;
     }
 
     div.headline {
-        padding-top: 55%;
+        padding-top: 40%;
         width: 100%;
         position: absolute;
         right: 0px;
@@ -115,26 +111,35 @@ li.nav-item  a.nav-link:before {
         align-items: center;
     }
 
-    h4 {
+    h4, h3, h6 {
         text-align: center;
-      }
+    }
     
+    h3 {
+        color: rgb(231, 222, 233) !important;
+    }
+
+    a.transparent_btn {
+        background-color: #2208297e !important;
+        color: rgba(245, 245, 245, 0.808) !important;
+    }
+
+    a.transparent_btn:hover {
+        background-color: #542b5f63 !important;
+        /* color: #371141 !important; */
+    }
     
-      h6 {
-        text-align: center;
-      }
-
-      .transparent_btn {
-        right: 29vw;
-      }
-
       #myFooter {
         text-align: center;
+    }
+
+    .at-login-form .modal-dialog {
+        width: 300px !important;
     }
 }
 
 .navbar {
-    background-color: whitesmoke;
+    background-color: rgb(245, 245, 245);
 }
 
 .navbar-toggler {
@@ -191,28 +196,23 @@ li.nav-item  a.nav-link:before {
   }
 
   div.msg-container {
-  /* position: absolute; */
   width: 100%;
-  left: 0;
+  right: 0;
   bottom: 0;
-  
   /* The image used */
   background-image: url("./background.jpg");  
-  /* Full height */
- 
-  /* Center and scale the image nicely */
-  
   background-repeat: no-repeat;
   background-size: cover;
-  justify-content: center;
+  justify-content: right;
+  align-items: end;
   }
 
-  div.row.msg {
-      padding-top: 40px;
-      display: none;
+  div.row.justify-content-end {
+      padding-right: 7%;
+      margin-top: 4%;
   }
 
-  #messageContent {
+  /* #messageContent {
     background-color: rgba(255,255,255, 0.2);
     border: 1px solid #FFF;
     text-decoration: none;
@@ -225,15 +225,15 @@ li.nav-item  a.nav-link:before {
     margin-right: 0px;
     border-radius: 20px;
     display: none;
-  }
+  } */
 
-  textarea.form-control::placeholder {
+  /* textarea.form-control::placeholder {
     color: rgb(250, 248, 250);
     font-family: 'Nunito Sans', sans-serif;
     font-weight: 200;
     padding: 9px;
     text-align: center;
-  }
+  } */
 
 
 
@@ -242,46 +242,92 @@ li.nav-item  a.nav-link:before {
     font-family: 'Josefin Sans', sans-serif;
     font-weight: 700;
     background-color: rgb(250, 248, 250, 0.3);
-    padding: 15px;
+    padding: 20px 60px 12px 35px;
   }
 
-  hr {
+  /* hr {
       background-color: whitesmoke;
       width: 60%;
-  }
+  } */
 
   h6 {
     color: rgb(250, 248, 250);
     font-family: 'Josefin Sans', sans-serif;
     font-weight: 200;
     font-size: 14px;
+    padding: 7px 60px;
+  }
+
+  h3 {
+    color: #886c91e5;
+    font-family: 'Josefin Sans', sans-serif;
+    font-weight: 400;
+    font-size: 25px;
+    padding: 7px 60px;
+  }
+
+
+  input.transparent_form::placeholder {
+    color: whitesmoke;
+    font-family: 'Hind Siliguri', sans-serif;
+    font-weight: 600;
+    font-size: 12px;
+  }
+
+  input.transparent_form:focus, input.transparent_form {
+    color: rgb(190, 222, 231);
+    background-color: rgb(255 ,255, 255, 0);
+    outline: none;
+    box-shadow: none;
+    border: 3px solid whitesmoke;
+    display: none;
+    width: 200px;
+    text-align: center;
+    border-radius: 50px;
+    padding: 5px 40px 8px 40px;
   }
 
   a.transparent_btn {
     display: block;
-    /* position: absolute; */
     width: 200px;
-	padding: 15px 40px 12px 40px;
-	color: whitesmoke;
-	border: 1px solid whitesmoke;
+	padding: 15px 35px 12px 35px;
+	color: rgb(71, 5, 80);
+	/* border: 3px solid rgba(245, 245, 245, 0.8); */
 	text-decoration: none;
     line-height: 120%;
-    background-color: rgba(86, 7, 97, 0.3);
+    background-color: rgba(255,255,255);
 	text-align: center;
-	border-radius: 0px;
-	transition: background-color 300ms ease;
+	border-radius: 50px;
+    transition: all 400ms ease;
+    transition-property: background-color, border;
     cursor: pointer;
-    font-family: 'Josefin Sans', sans-serif;
-    font-weight: 200;
-    font-size: 18px;
+    font-family: 'Hind Siliguri', sans-serif;
+    font-weight: 600;
+    font-size: 12px;
+    margin-left: 35px;
+    /* margin-left: 300px; */
+    /* position: absolute; */
+    /* right: 60px;
+    top: 420px; */
 }
 .transparent_btn:hover {
-	background-color: rgba(255,255,255, 0.4);
-    color: rgb(120, 9, 134);
+	background-color: #acd6ebaf;
+    color: rgba(245, 245, 245, 0.822);
+    font-family: 'Hind Siliguri', sans-serif;
+    font-weight: 600;
+    font-size: 12px;
     text-decoration: none;
+    /* border: 3px solid #22082900; */
 }
 
-#arrow {
+.transparent_btn:focus {
+    outline: none;
+}
+
+.row {
+    margin-right: 0 !important;
+}
+/* #arrow {
     display: block;
     position: fixed;
     bottom: 35px;
@@ -295,7 +341,7 @@ li.nav-item  a.nav-link:before {
     bottom: 45px;
     left: 49%;
     margin: 0 auto;
-}
+} */
  /*Modals--------------------------------*/
 
 
@@ -308,7 +354,7 @@ li.nav-item  a.nav-link:before {
 	margin-bottom: 0;
 	font-size: 14px;
 	font-weight: 400;
-	line-height: 1.42857143;
+	line-height: 1.4;
 	text-align: center;
 	white-space: nowrap;
 	vertical-align: middle;
@@ -376,7 +422,7 @@ li.nav-item  a.nav-link:before {
 	background-image: none;
 	border: 1px solid #eee;
 	border-radius: 0px;
-	background-color: #1DB9EC;
+	background-color: #7dbbda;
 	width: 100%;
 	margin-top: 10px;
 	color:#fff;
@@ -414,7 +460,7 @@ li.nav-item  a.nav-link:before {
     font-size: 14px;
     line-height: 1.42857143;
     color: #555;
-    background-color: #fff;
+    background-color: whitesmoke;
     background-image: none;
     border: 1px solid #ccc;
     border-radius: 0px;
@@ -428,14 +474,15 @@ li.nav-item  a.nav-link:before {
  .at-login-form .frgt-pswd
 {
 	margin: 5px 0 10px;
-color: red;
+color: rgb(139, 46, 46);
 }
 
  .at-login-form .btn-gst
 {
-	display: inline-block;
-padding: 6px 12px;
+display: inline-block;
+padding: 6px 18px;
 margin-bottom: 0;
+/* margin-top: 7px; */
 font-size: 14px;
 font-weight: 400;
 line-height: 1.42857143;
@@ -454,6 +501,7 @@ border: 1px solid #000;
 border-radius: 0px;
 background-color: transparent;
 }
+
 
  .at-login-form .ta-l
 {
@@ -477,7 +525,7 @@ background-color: transparent;
 }
 .blue-bg-nav
 {
-    background-color:#1DB9EC;
+    background-color:#acd6ebaf;
 }
 
 
@@ -487,7 +535,7 @@ background-color: transparent;
 
 
 #myFooter {
-    background-color: #2d3a52;
+    background-color: #2e3b53;
     color: dimgray;
     padding-top: 30px;
     font-family: 'Josefin Sans', sans-serif;
@@ -496,7 +544,7 @@ background-color: transparent;
 }
 
 #myFooter .footer-copyright {
-    background-color: #2d3a52;
+    background-color: #2e3b53;
     padding-top: 3px;
     padding-bottom: 3px;
     text-align: center;
