@@ -7,7 +7,16 @@ const bodyParser = require('body-parser');
 
 
 
-
+function tagExists(tag, state){
+  return models.tag.findOne({where: {tagnum: tag, state: state} })
+   .then(tag =>{
+    if(tag != null){
+    return tag.id
+    }else{
+        return null
+    }
+   }
+)}
 
 
 /* GET home page. */
@@ -76,16 +85,7 @@ router.post('/', (req, res)=>{
     const newTagNum = req.body.tagNum;
     const newState = req.body.state;
     const newMessage =  req.body.newMessage;
-function tagExists(tag, state){
-  return models.tag.findOne({where: {tagnum: tag, state: state} })
-   .then(tag =>{
-    if(tag != null){
-    return tag.id
-    }else{
-        return null
-    }
-   }
-)}
+
     tagExists(newTagNum, newState).then(tag => {
         if(tag != null){
         models.message.create({
@@ -105,14 +105,12 @@ function tagExists(tag, state){
             })
         })
     }
+ }).then(done => {
+    res.render('index', {
+        isLoggedIn: req.isAuthenticated()
+    });
  })
 
-
-     
-    
-    // }else{
-    //     res.render('index')
-    // }
 })
 
 
