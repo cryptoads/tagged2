@@ -70,16 +70,17 @@
 <div class="container-fluid msg-container align-items-end">
 <!--If logged in, display this-->
 {{#if isLoggedIn}}
+<form action="/" method="POST">
 <div class="row send-message">
     <div class="col-md-1">
 
     </div>
     <div class="col-sm-2">
-        <input type="text" class="form-control-form " id="tagToSend" placeholder="Tag Number">
+        <input type="text" class="form-control-form " name="tagNum" placeholder="Tag Number">
     </div>
     <div class="col-sm-1"></div>
     <div class="col-sm-2">
-        <select id="state">
+        <select name="state">
             <option value="AL">Alabama</option>
             <option value="AK">Alaska</option>
             <option value="AZ">Arizona</option>
@@ -135,12 +136,13 @@
     </div>
     <div class="col-sm-1"></div>
     <div class="col-sm-4">
-         <input type="text" class="form-control-form " id="msg-content" placeholder="Message...">
+         <input type="text" class="form-control-form " name="newMessage" placeholder="Message...">
     </div>
     <div class="col-md-1">
-        <button type="submit" class="btn-sendmsg">Send</button>
+        <button type="submit" class="btn-sendmsg" value="send">send</button>
     </div>
 </div>
+</form>
 <div class="card-deck">
   <div class="card">
     <img class="card-img-top" src="../img/plate.png" alt="Card image cap">
@@ -184,7 +186,7 @@
   </div>
 </div>
 <!-- If NOT logged in, display this-->
-{{{body}}}
+
 
 
 <!--Landing Page Container-->
