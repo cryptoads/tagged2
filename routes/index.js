@@ -4,6 +4,21 @@ var models = require('../models');
 const ensureAuthenticated = require('../auth').ensureAuthenticated;
 const bodyParser = require('body-parser');
 
+
+
+
+function tagExists(tag, state){
+  return models.tag.findOne({where: {tagnum: tag, state: state} })
+   .then(tag =>{
+    if(tag != null){
+    return tag.id
+    }else{
+        return null
+    }
+   }
+)}
+
+
 /* GET home page. */
 router.get('/', function(req, res, next) {
     if(req.isAuthenticated()){    
@@ -62,14 +77,39 @@ router.get('/:state/:id', (req, res) => {
 });
 
 
+
+
+
 router.post('/', (req, res)=>{
     // if(req.isAuthenticated()){
-    console.log(req.body);
+    const newTagNum = req.body.tagNum;
+    const newState = req.body.state;
+    const newMessage =  req.body.message;
+
+    tagExists(newTagNum, newState).then(tag => {
+        if(tag != null){
         models.message.create({
         userId: req.body.userId,
-        tagId: req.body.tagId,
-        message: req.body.message
+        tagId: tag,
+        message: newMessage
      })
+    }else{
+        models.tag.create({
+            tagnum: newTagNum, 
+            state: newState 
+        }).then(tag => {
+            models.message.create({
+                userId: req.body.userId,
+                tagId: tag.id,
+                message: newMessage
+            })
+        })
+    }
+ })
+
+
+     
+    
     // }else{
     //     res.render('index')
     // }
