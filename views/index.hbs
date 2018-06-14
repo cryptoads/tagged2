@@ -30,9 +30,16 @@
     </div>
 {{/unless}}
 {{#if isLoggedIn}}
+
+{{#each tagnum}}
+<li>{{tagnum}}</li>
+{{#each messages}}
+<li>{{message}}</li>
+{{/each}}
+{{/each}}
       <div class="container-fluid msg-container">
 
-{{message}}
+
 
       </div>
 

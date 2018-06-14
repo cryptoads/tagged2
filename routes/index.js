@@ -20,25 +20,25 @@ function tagExists(tag, state){
 
 
 /* GET home page. */
-router.get('/', function(req, res, next) {
-    if(req.isAuthenticated()){    
-        models.user.findById(req.user,{
-        include: [models.message]
-                })
-                .then( user =>{
-                    models.tag.findById(1)
-                    .then(tag => {
-                     res.render('index',
-                     {
-                        isLoggedIn: req.isAuthenticated(),
-                        //use handlebars to show all messages related to user
-                        message: JSON.stringify(user.messages),
-                })
-            })
-
-    })}else{
-                res.render('index')
-            }
+router.get('/', function(req, res, next) { 
+    if(req.isAuthenticated()){
+     models.user.findById(req.user,{
+        include: [{
+            model: models.tag,
+            include: [{model: models.message, attributes:['message']}],
+            attributes:['tagnum']
+         }]
+     })
+    .then(user => {
+        console.log(user.tags[0].tagnum + " LOOOK RIGHT HERE GUY")
+        res.render('index', {
+            isLoggedIn: req.isAuthenticated(),
+            tagnum: user.tags,
+            message: user.tags
+    })
+})}else{
+        res.render('index')
+    }
 });
 
 
