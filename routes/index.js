@@ -84,12 +84,12 @@ router.post('/', (req, res)=>{
     // if(req.isAuthenticated()){
     const newTagNum = req.body.tagNum;
     const newState = req.body.state;
-    const newMessage =  req.body.message;
+    const newMessage =  req.body.newMessage;
 
     tagExists(newTagNum, newState).then(tag => {
         if(tag != null){
         models.message.create({
-        userId: req.body.userId,
+        userId: req.user,
         tagId: tag,
         message: newMessage
      })
@@ -99,20 +99,18 @@ router.post('/', (req, res)=>{
             state: newState 
         }).then(tag => {
             models.message.create({
-                userId: req.body.userId,
+                userId: req.user,
                 tagId: tag.id,
                 message: newMessage
             })
         })
     }
+ }).then(done => {
+    res.render('index', {
+        isLoggedIn: req.isAuthenticated()
+    });
  })
 
-
-     
-    
-    // }else{
-    //     res.render('index')
-    // }
 })
 
 
