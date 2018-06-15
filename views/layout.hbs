@@ -83,6 +83,7 @@
     </div>
     <div class="col-sm-2">
         {{!-- <button type="submit" class="btn-state sendmsg" value="state">STATE</button> --}}
+        <div class="custom-select" style="width:120px;"> 
         <select id="select" class="" name="state">
             <option selected="true" disabled="disabled">State</option>
             <option value="AL">Alabama</option>
@@ -137,6 +138,7 @@
             <option value="WI">Wisconsin</option>
             <option value="WY">Wyoming</option>
         </select>
+        </div>
     </div>
     <div class="col-sm-4">
          <input type="text" class="form-control-form messageContent" name="newMessage" placeholder="Your Message...">
@@ -273,8 +275,10 @@
                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
                             </div>
                             <div class="modal-body">
+                                <form action="/login" method="GET">
                                 <button class="btn-gt"> <i class="fa fa-fw fa-github pull-left" aria-hidden="true"></i>
                             Signup with Github </button> <br> 
+                            </form>
                                 <button class="btn-fb"> <i class="fa fa-fw fa-facebook pull-left" aria-hidden="true"></i>
                                     Signup with Facebook    </button> <br>  
                                     <button class="btn-gp"> <i class="fa fa-fw fa-google-plus pull-left" aria-hidden="true"></i>
@@ -300,6 +304,7 @@
                             </div>
                         </div>
                         <!-- MODAL SIGNUP FORM FILLING -->
+                        <form action="/login" method="GET">
                         <div class="modal fade" id="at-signup-filling" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
                             <div class="modal-dialog" role="document">
                                 <div class="modal-content">
@@ -325,7 +330,8 @@
                                                     <input type="text" class="form-control-form " id="licenseplate" placeholder="License Plate Number">
                                                 </div>  
                                                 <div class="form-group">
-                                                    <span>License Plate State: </span>    
+                                                    <span>License Plate State: </span>
+                                                    <div class="custom-select" style="width:120px;">    
                                                     <select id="state">
                                                             <option value="AL">Alabama</option>
                                                             <option value="AK">Alaska</option>
@@ -379,6 +385,7 @@
                                                             <option value="WI">Wisconsin</option>
                                                             <option value="WY">Wyoming</option>
                                                         </select>
+                                                    </div>
                                                 </div>  
                                                 <div class="form-group">
                                                     <input type="text" class="form-control-form " id="vin" placeholder="VIN Number">
@@ -407,6 +414,7 @@
                                 </div>
                             </div>
                         </div>
+                        </form>
                         <!-- MODAL SIGNUP FORM FILLING -->
                         <!-- MODAL ADD TAG -->
                         <form action="/addtag" method="POST">
@@ -422,7 +430,8 @@
                                                     <input type="text" class="form-control-form " id="licenseplate" name="tagNum" placeholder="License Plate Number">
                                                 </div>  
                                                 <div class="form-group">
-                                                    <span>License Plate State: </span>    
+                                                    <span>License Plate State: </span>  
+                                                    <div class="custom-select" style="width:120px;">   
                                                     <select id="state" name="state">
                                                             <option value="AL">Alabama</option>
                                                             <option value="AK">Alaska</option>
@@ -476,6 +485,7 @@
                                                             <option value="WI">Wisconsin</option>
                                                             <option value="WY">Wyoming</option>
                                                         </select>
+                                                    </div>
                                                 </div>  
                                                 <div class="form-group">
                                                     <input type="text" class="form-control-form " id="vin" placeholder="VIN Number">
