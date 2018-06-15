@@ -30,7 +30,6 @@ router.get('/', function(req, res, next) {
          }]
      })
     .then(user => {
-        console.log(user.tags[0].tagnum + " LOOOK RIGHT HERE GUY")
         res.render('index', {
             isLoggedIn: req.isAuthenticated(),
             tagnum: user.tags,
@@ -110,7 +109,36 @@ router.post('/', (req, res)=>{
         isLoggedIn: req.isAuthenticated()
     });
  })
+})
 
+
+router.post('/addtag', (req, res) => {
+    const newTagNum = req.body.tagNum;
+    const newState = req.body.state;
+    tagExists(newTagNum, newState).then(tag => {
+        if(tag != null){
+            models.tag.findById(tag).then(currentTag => {
+                models.user.findById(req.user)
+                    .then(user =>{
+                        currentTag.setUsers([user])
+                    })           
+            })
+    }else{
+        models.tag.create({
+            tagnum: newTagNum, 
+            state: newState 
+        }).then(tag => {
+            models.user.findById(req.user)
+            .then(user=>{
+                tag.setUsers([user])
+            })
+        })
+    }
+ }).then(done => {
+    res.render('index', {
+        isLoggedIn: req.isAuthenticated()
+    });
+ })
 })
 
 
