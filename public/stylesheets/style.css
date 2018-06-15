@@ -6,6 +6,11 @@ body {
     background-color: #2e3b53;
     height: 100%;
   }
+
+  div.col-sm-2, div.col-sm-3, div.col-sm-1, div.col-sm-4 {
+      padding: 10px;
+      text-align: center;
+  }
   
   li.nav-item  a.nav-link:focus {
       outline: none;
@@ -208,28 +213,35 @@ body {
         margin-top: 4%;
     }
   
-    /* #messageContent {
-      background-color: rgba(255,255,255, 0.2);
+    .form-control-form {
+      /* background-color: rgba(255,255,255, 0.2);
       border: 1px solid #FFF;
       text-decoration: none;
       padding: 10px 14px;
       font-size: 16px;
       line-height: 120%;
-      font-family: 'Nunito Sans', sans-serif;
+      font-family: 'Josephin Sans', sans-serif;
       font-weight: 200;
       color: whitesmoke;
-      margin-right: 0px;
-      border-radius: 20px;
-      display: none;
-    } */
+      margin-right: 0px; */
+      /* border-radius: 20px; */
+      /* display: none; */
+    }
   
-    /* textarea.form-control::placeholder {
+    /* .form-control-form::placeholder {
       color: rgb(250, 248, 250);
-      font-family: 'Nunito Sans', sans-serif;
-      font-weight: 200;
+      font-family: 'Josefin Sans', sans-serif;
+      font-weight: 400;
+      font-size: 18px;
       padding: 9px;
       text-align: center;
     } */
+
+    input.form-control-form.messageContent {
+        margin: 0px;
+        width: 100%;
+        padding: 9px;
+    }
   
   
   
@@ -275,15 +287,31 @@ body {
       background-color: rgb(255 ,255, 255, 0);
       outline: none;
       box-shadow: none;
-      border: 3px solid whitesmoke;
+      border: 1px solid whitesmoke;
       display: none;
       width: 200px;
       text-align: center;
-      border-radius: 50px;
+      /* border-radius: 50px; */
       padding: 5px 40px 8px 40px;
     }
+
+    .sendmsg {
+        color: white;
+        background-color: #220829;
+        border-radius: 0px;
+        border: none;
+        width: 250px;
+        display: block;
+        margin: 0 auto;
+        /* margin-top: 10px; */
+        line-height: 25px;
+        font-family: 'Josefin Sans', sans-serif;
+        font-weight: 200;
+        font-size: 18px;
+        padding: 11px 10px 9px 10px;
+    }
   
-    a.transparent_btn {
+    .transparent_btn {
       display: block;
       width: 200px;
       padding: 15px 35px 12px 35px;
@@ -322,6 +350,8 @@ body {
   
   .row {
       margin-right: 0 !important;
+      margin-left: 0 !important;
+      /* margin-top: 30px; */
   }
   /* #arrow {
       display: block;
@@ -399,6 +429,32 @@ body {
       width: 100%;
       margin-top: 10px;
       color:#000;
+  }
+  
+  .at-login-form .btn-gt {
+      display: inline-block;
+      padding: 18px 20px;
+      margin-bottom: 0;
+      font-size: 14px;
+      font-weight: 400;
+      line-height: 1.4;
+      text-align: center;
+      white-space: nowrap;
+      vertical-align: middle;
+      -ms-touch-action: manipulation;
+      touch-action: manipulation;
+      cursor: pointer;
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      user-select: none;
+      background-image: none;
+      border: 1px solid transparent;
+      border-radius: 0px;
+      background-color: rgb(7, 7, 7);
+      width: 100%;
+      margin-top: 10px;
+      color:#fff;
   }
   
   .at-login-form .btn-lgin
@@ -541,6 +597,7 @@ body {
       font-family: 'Josefin Sans', sans-serif;
       font-weight: 200;
       font-size: 14px;
+      margin-top: 20px;
   }
   
   #myFooter .footer-copyright {
@@ -648,6 +705,7 @@ body {
       padding-bottom: 30px;
       padding-top: 30px;
       background-color: rgba(245, 245, 245, 0.404);
+      margin-bottom: 40px;
   }
   
   
@@ -659,31 +717,58 @@ body {
       /* padding: auto; */
   }
   .card {
-      min-width: 300px;
-      max-width: 300px;
-      height: 400px;
+      width: 300px;
+      width: 300px;
+      /* height: 300px; */
       position: relative;
-      margin: 30px auto !important;
-      /* margin-bottom: 10px !important;
-      margin-left: auto !important;
-      margin-right: auto !important; */
+      margin: 40px auto !important;
+      align-self: flex-start;
+      background-color: rgba(245, 245, 245, 0.185);
+      transition:  width 2s;
   }
-  
+
+  .card.clicked {
+      width: 400px !important;
+      max-width: 500px !important;
+      transition:  width 2s;
+  }
+
+  .card-body {
+      display: none;
+      font-family: "Nunito Sans", sans-serif;
+  }
   .card-img-overlay {
-      position: absolute;
       top: 52px;
-      left: 66px;
-      
+      left: 72px;
+      height: 100px;
+      transition: all 2s ease 0s;
   }
+
+  .card-img-overlay.clicked {
+    top: 72px;
+    left: 75px;
+    transition: all 2s ease 0s;
+}
   
   h5.card-title {
       font-size: 30px;
+      font-family: "Nunito Sans", sans-serif;
+      font-weight: 100;
+      transition:  font-size 2s;
   }
-  
+
+  h5.card-title.clicked {
+    font-size: 48px;
+    font-family: "Nunito Sans", sans-serif;
+    transition:  font-size 2s;
+}
+
+
   h6.card-title {
       font-size: 18px;
       color: dimgray;
       text-align: center;
+      font-family: "Nunito Sans", sans-serif;
   }
   
   .card-footer {
@@ -691,15 +776,63 @@ body {
       justify-content: center;
   }
   
-  .btn-inbox {
-      outline: none;
-      border: none;
-      background-color: transparent;
-      font-size: 14px;
+  a.btn-inbox {
+    display: block;
+    /* width: 20px; */
+    padding: 15px 35px 12px 35px;
+    color: rgb(71, 5, 80);
+    /* border: 3px solid rgba(245, 245, 245, 0.8); */
+    text-decoration: none;
+    line-height: 120%;
+    background-color: white;
+    text-align: center;
+    border-radius: 50px;
+    transition: all 400ms ease;
+    transition-property: background-color, border;
+    cursor: pointer;
+    font-family: 'Hind Siliguri', sans-serif;
+    font-weight: 600;
+    font-size: 12px;
+    margin: 30px 60px;
+    border: 3px solid white;
+    transition:  width 2s;
   }
   
+  .btn-inbox:hover {
+        background-color: #f3f3f300;
+        color: rgb(245, 245, 245);
+        font-family: 'Hind Siliguri', sans-serif;
+        font-weight: 600;
+        font-size: 12px;
+        text-decoration: none;
+  }
+
   .plus-sign {
-      position: absolute;
-      top: 240px;
-      left: 103px;
+      /* position: relative; */
+      /* padding-top: 40px; */
+      /* left: 103px; */
+      padding-left: 95px;
+  }
+
+  .card-body-plus {
+      display: block !important;
+  }
+
+  p.message {
+      font-size: 22px;
+      margin-bottom: 2px;
+      padding-left: 15px;
+      color: whitesmoke;
+  }
+
+  p.datestamp {
+    font-size: 10px;
+    color: rgb(209, 209, 209);
+    margin-bottom: 2px;
+    padding-left: 15px;
+  }
+  
+  hr {
+      margin: 3px 0;
+      background-color: whitesmoke;
   }

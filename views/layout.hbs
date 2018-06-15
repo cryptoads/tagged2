@@ -44,31 +44,31 @@
           <div class="collapse navbar-collapse" id="navbarResponsive">
                 <ul class="navbar-nav ml-auto">
                         <li class="nav-item">
-
+                        {{#if isLoggedIn}}
+                        <!--If logged in, display this-->
+                        <a class="nav-link" href="#" data-target="#inbox">INBOX</a>
+                        {{else}}
                         <!--If NOT logged in, display this-->  
                           <a class="nav-link" href="#"  data-target="#about">ABOUT</a>
-                        <!--If logged in, display this-->
-                        <!-- <a class="nav-link" href="#" data-target="#inbox">INBOX &emsp;<span class="nav-link badge badge-dark">7</span></a> -->
-
+                        {{/if}}
                         </li>
                         <li class="nav-item">
                           <a class="nav-link" href="#">FAQ</a>
                         </li>
                         <li class="nav-item">
-
-                        <!--If NOT logged in, display this-->  
-                            <a class="nav-link" href="#" data-toggle="modal" data-target="#at-login">LOGIN</a>
+                        {{#if isLoggedIn}}
                         <!--If logged in, display this-->
-                            <!-- <a class="nav-link" id="logout" href="#"  data-target="#logout">LOG OUT</a> -->
-
+                            <a class="nav-link" id="logout" href="/logout"  data-target="#logout">LOG OUT</a>
+                        {{else}}
+                        <!--If NOT logged in, display this-->  
+                            <a class="nav-link" href="/login" data-toggle="modal" data-target="#at-login">LOGIN</a>
+                        {{/if}}
                         </li>
                       </ul>
           </div>
         </div>
       </nav>
-
 <div class="container-fluid msg-container align-items-end">
-    {{{body}}}
 <!--If logged in, display this-->
 {{#if isLoggedIn}}
 
@@ -76,14 +76,15 @@
 <form action="/" method="POST">
 <div class="row send-message">
     <div class="col-md-1">
-
+        {{!-- <p>send a message -></p> --}}
     </div>
     <div class="col-sm-2">
-        <input type="text" class="form-control-form " name="tagNum" placeholder="Tag Number">
+        <input type="text" class="form-control-form messageContent" name="tagNum" placeholder="Tag Number">
     </div>
-    <div class="col-sm-1"></div>
     <div class="col-sm-2">
-        <select name="state">
+        {{!-- <button type="submit" class="btn-state sendmsg" value="state">STATE</button> --}}
+        <select id="select" class="" name="state">
+            <option selected="true" disabled="disabled">State</option>
             <option value="AL">Alabama</option>
             <option value="AK">Alaska</option>
             <option value="AZ">Arizona</option>
@@ -137,55 +138,52 @@
             <option value="WY">Wyoming</option>
         </select>
     </div>
-    <div class="col-sm-1"></div>
     <div class="col-sm-4">
-         <input type="text" class="form-control-form " name="newMessage" placeholder="Message...">
+         <input type="text" class="form-control-form messageContent" name="newMessage" placeholder="Your Message...">
     </div>
-    <div class="col-md-1">
-        <button type="submit" class="btn-sendmsg" value="send">send</button>
+    <div class="col-sm-1">
+        <button type="submit" class="btn-sendmsg sendmsg" value="send">SEND MESSAGE</button>
     </div>
 </div>
 </form>
-<div class="card-deck">
+
+<div class="row flex-row">
+
+{{#each tagnum}}
+
   <div class="card">
     <img class="card-img-top" src="../img/plate.png" alt="Card image cap">
     <div class="card-img-overlay">
-        <h5 class="card-title">184 TPQ</h5>
+        <h5 class="card-title">{{tagnum}}</h5>
     </div>
+    {{!-- <div class="card-body">
+      <h6 class="card-title">{{make}}</h6>
+      <h6 class="card-title">{{model}}</h6>
+      <h6 class="card-title">{{year}}</h6>
+    </div> --}}
+    
+    <a href="#" class="btn-inbox" >INBOX</a>
+    
     <div class="card-body">
-      <h6 class="card-title">Make</h6>
-      <h6 class="card-title">Model</h6>
-      <h6 class="card-title">Year</h6>
-    </div>
-    <div class="card-footer">
-      <button type="submit" class="btn-inbox">INBOX</button>
-    </div>
+      {{#each messages}}
+      <hr />
+      <p class="message">{{message}}</p>
+      <p class="datestamp">{{createdAt}}</p>
+      {{/each}}
+      <hr/>
+      </div>
   </div>
-  <div class="card">
-    <img class="card-img-top" src="../img/plate.png" alt="Card image cap">
-    <div class="card-img-overlay">
-        <h5 class="card-title">123ABCD</h5>
-    </div>
-    <div class="card-body">
-      <h6 class="card-title">Make</h6>
-      <h6 class="card-title">Model</h6>
-      <h6 class="card-title">Year</h6>
-    </div>
-    <div class="card-footer">
-      <button type="submit" class="btn-inbox">INBOX</button>
-    </div>
-  </div>
+
+{{/each}}
+
   <div class="card">
     <img class="card-img-top" src="../img/plate-add.png" alt="Card image cap">
     <div class="card-img-overlay">
         <h5 class="card-title">ADD TAG</h5>
     </div>
-    <div class="card-body">
-      <img class="plus-sign" src="../img/plus-sign.png" height="90px"/>
+    <div class="card-body card-body-plus">
+      <img class="plus-sign" data-toggle="modal" data-target="#add-tag" src="../img/plus-sign.png" height="67px"/>
     </div>
-    {{!-- <div class="card-footer">
-      <button type="submit" class="btn-inbox">INBOX</button>
-    </div> --}}
   </div>
 </div>
 <!-- If NOT logged in, display this-->
@@ -194,6 +192,7 @@
 
 <!--Landing Page Container-->
 {{else}}
+{{!-- <div class="container-fluid msg-container align-items-end"> --}}
         <div class="headline">
             <h4>finally, cars have an inbox   </h4>  
             <br />
@@ -211,6 +210,7 @@
 <!--Modals-->
 <section class="at-login-form">
         <!-- MODAL LOGIN -->
+        <form  action="/login" method="GET">
         <div class="modal fade" id="at-login" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
@@ -218,6 +218,8 @@
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
                     </div>
                     <div class="modal-body">
+                        <button class="btn-gt"> <i class="fa fa-fw fa-github pull-left" aria-hidden="true"></i>
+                            Login with Github </button> <br>  
                         <button class="btn-fb"> <i class="fa fa-fw fa-facebook pull-left" aria-hidden="true"></i>
                             Login with Facebook </button> <br>  
                             <button class="btn-gp"> <i class="fa fa-fw fa-google-plus pull-left" aria-hidden="true"></i>
@@ -245,7 +247,7 @@
                                             <p class="frgt-pswd"   data-toggle="modal" data-dismiss="modal"  data-target="#at-reset-pswd">  Forgot Password ?</p>
                                         </div>
                                     </div>
-                                    <button type="submit" class="btn-lgin"><a href="/login">Login</a></button>
+                                    <button type="submit" class="btn-lgin">Login</button>
                                 </form>
                             </div>
                             <div class="modal-footer">
@@ -261,6 +263,7 @@
                         </div>
                     </div>
                 </div>
+                </form>
                 <!-- MODAL LOGIN ENDS -->
                 <!-- MODAL SIGNUP -->
                 <div class="modal fade" id="at-signup" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
@@ -403,6 +406,94 @@
                             </div>
                         </div>
                         <!-- MODAL SIGNUP FORM FILLING -->
+                        <!-- MODAL ADD TAG -->
+                        <form action="/addtag" method="POST">
+                        <div class="modal fade" id="add-tag" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                                    </div>
+                                    <div class="modal-body">
+                                            <div id="vehicle-info">
+                                                <div class="form-group">
+                                                    <input type="text" class="form-control-form " id="licenseplate" name="tagNum" placeholder="License Plate Number">
+                                                </div>  
+                                                <div class="form-group">
+                                                    <span>License Plate State: </span>    
+                                                    <select id="state" name="state">
+                                                            <option value="AL">Alabama</option>
+                                                            <option value="AK">Alaska</option>
+                                                            <option value="AZ">Arizona</option>
+                                                            <option value="AR">Arkansas</option>
+                                                            <option value="CA">California</option>
+                                                            <option value="CO">Colorado</option>
+                                                            <option value="CT">Connecticut</option>
+                                                            <option value="DE">Delaware</option>
+                                                            <option value="DC">District Of Columbia</option>
+                                                            <option value="FL">Florida</option>
+                                                            <option value="GA">Georgia</option>
+                                                            <option value="HI">Hawaii</option>
+                                                            <option value="ID">Idaho</option>
+                                                            <option value="IL">Illinois</option>
+                                                            <option value="IN">Indiana</option>
+                                                            <option value="IA">Iowa</option>
+                                                            <option value="KS">Kansas</option>
+                                                            <option value="KY">Kentucky</option>
+                                                            <option value="LA">Louisiana</option>
+                                                            <option value="ME">Maine</option>
+                                                            <option value="MD">Maryland</option>
+                                                            <option value="MA">Massachusetts</option>
+                                                            <option value="MI">Michigan</option>
+                                                            <option value="MN">Minnesota</option>
+                                                            <option value="MS">Mississippi</option>
+                                                            <option value="MO">Missouri</option>
+                                                            <option value="MT">Montana</option>
+                                                            <option value="NE">Nebraska</option>
+                                                            <option value="NV">Nevada</option>
+                                                            <option value="NH">New Hampshire</option>
+                                                            <option value="NJ">New Jersey</option>
+                                                            <option value="NM">New Mexico</option>
+                                                            <option value="NY">New York</option>
+                                                            <option value="NC">North Carolina</option>
+                                                            <option value="ND">North Dakota</option>
+                                                            <option value="OH">Ohio</option>
+                                                            <option value="OK">Oklahoma</option>
+                                                            <option value="OR">Oregon</option>
+                                                            <option value="PA">Pennsylvania</option>
+                                                            <option value="RI">Rhode Island</option>
+                                                            <option value="SC">South Carolina</option>
+                                                            <option value="SD">South Dakota</option>
+                                                            <option value="TN">Tennessee</option>
+                                                            <option value="TX">Texas</option>
+                                                            <option value="UT">Utah</option>
+                                                            <option value="VT">Vermont</option>
+                                                            <option value="VA">Virginia</option>
+                                                            <option value="WA">Washington</option>
+                                                            <option value="WV">West Virginia</option>
+                                                            <option value="WI">Wisconsin</option>
+                                                            <option value="WY">Wyoming</option>
+                                                        </select>
+                                                </div>  
+                                                <div class="form-group">
+                                                    <input type="text" class="form-control-form " id="vin" placeholder="VIN Number">
+                                                </div> 
+                                            </div>
+                                            
+                                            <div class="row">   
+                                                <div class="col-md-12"> 
+                                                    
+                                                </div>          
+                                            </div>
+                                            <button type="submit" class="btn-lgin" id="add-button">Add Tag</button>
+
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        </form>
+                        <!-- END MODAL ADD TAG -->
                         <!-- MODAL FORGOT PASSWORD -->
                         <div class="modal fade" id="at-reset-pswd" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
                             <div class="modal-dialog" role="document">

@@ -27,10 +27,37 @@ $(document).ready(function(){
                 let model = response.Results[0].Model;
                 let year = response.Results[0].ModelYear;
             
-            // }.then(() => {
+            }.then((res) => {
+                let make = response.Results[0].Make;
+                let model = response.Results[0].Model;
+                let year = response.Results[0].ModelYear;
                 console.log(make, model, year)
-            }
+                res.render('index', {
+                    make: make,
+                    model: model,
+                    year: year
+                })
+            })
         
-        });
+        })
     }
+
+    $(".btn-inbox").click(function (e) {
+        e.preventDefault()
+        if ( $(this).parent().find( ".card-body" ).is( ":hidden" ) ) {
+          $(this).parent().find( ".card-body" ).slideDown( "slow" );
+          $(this).text('CLOSE');
+          $(this).parent(".card").addClass('clicked');
+          $(this).parent().find("h5.card-title").addClass('clicked');
+          $(this).parent().find(".card-img-overlay").addClass('clicked');
+        } else {
+          $(this).parent().find( ".card-body" ).slideUp("slow");
+          $(this).text('INBOX');
+          $(this).parent(".card").removeClass('clicked');
+          $(this).parent().find("h5.card-title").removeClass('clicked');
+          $(this).parent().find(".card-img-overlay").removeClass('clicked');
+        }
+      });
+
+
 });
