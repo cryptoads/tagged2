@@ -25,7 +25,7 @@ router.get('/', function(req, res, next) {
      models.user.findById(req.user,{
         include: [{
             model: models.tag,
-            include: [{model: models.message, attributes:['message']}],
+            include: [{model: models.message, attributes:['message', 'createdAt']}],
             attributes:['tagnum']
          }]
      })
@@ -33,7 +33,8 @@ router.get('/', function(req, res, next) {
         res.render('index', {
             isLoggedIn: req.isAuthenticated(),
             tagnum: user.tags,
-            message: user.tags
+            message: user.tags,
+            created: user.tags
     })
 })}else{
         res.render('index')
@@ -41,23 +42,23 @@ router.get('/', function(req, res, next) {
 });
 
 
-router.get('/test', (req,res) =>{ 
-    if(req.isAuthenticated()){
-     models.user.findById(req.user,{
-        include: [{
-            model: models.tag,
-            include: [{model: models.message, attributes:['message']}],
-            attributes:['tagnum']
-         }]
-     })
-    .then(user => {
-        res.render('error', {
-            message: JSON.stringify(user.tags, null, "\t")
-    })
-})}else{
-        res.render('index')
-    }
-});
+// router.get('/test', (req,res) =>{ 
+//     if(req.isAuthenticated()){
+//      models.user.findById(req.user,{
+//         include: [{
+//             model: models.tag,
+//             include: [{model: models.message, attributes:['message']}],
+//             attributes:['tagnum']
+//          }]
+//      })
+//     .then(user => {
+//         res.render('error', {
+//             message: JSON.stringify(user.tags, null, "\t")
+//     })
+// })}else{
+//         res.render('index')
+//     }
+// });
 
 
 
