@@ -746,7 +746,7 @@ body {
 
   .card-img-overlay.clicked {
     top: 72px;
-    left: 75px;
+    left: 90px;
     transition: all 2s ease 0s;
 }
   
@@ -835,4 +835,67 @@ body {
   hr {
       margin: 3px 0;
       background-color: whitesmoke;
+  }
+
+
+  /*----------------- SELECT CUSTOMIZATION -----------*/
+
+
+  /*the container must be positioned relative:*/
+div.custom-select {
+    position: relative;
+    font-family: "Nunito Sans", sans-serif;
+    color: lightgray;
+    height: 41px;
+    border-radius: 0px;
+  }
+  div.custom-select select {
+    display: none; 
+  }
+  .select-selected {
+    background-color: white;
+  }
+  /*style the arrow inside the select element:*/
+  .select-selected:after {
+    position: absolute;
+    content: "";
+    top: 7px;
+    right: 10px;
+    width: 0;
+    height: 0;
+    border: 6px solid transparent;
+    border-color: #fff transparent transparent transparent;
+    transform: rotateX(180deg)
+  }
+  /*point the arrow upwards when the select box is open (active):*/
+  .select-selected.select-arrow-active:after {
+    border-color: transparent transparent #fff transparent;
+    top: 20px;
+    
+    
+  }
+  /*style the items (options), including the selected item:*/
+  .select-items div,.select-selected {
+    color: dimgray;
+    padding: 5px 9px;
+    /* border: 1px solid transparent; */
+    border-color: transparent transparent rgba(0, 0, 0, 0.1) transparent;
+    cursor: pointer;
+  }
+  /*style items (options):*/
+  .select-items {
+    position: absolute;
+    background-color: white;
+    top: 100%;
+    left: 0;
+    right: 0;
+    z-index: 99;
+    color: dimgray;
+  }
+  /*hide the items when the select box is closed:*/
+  .select-hide {
+    display: none;
+  }
+  .select-items div:hover, .same-as-selected {
+    background-color: rgba(0, 0, 0, 0.1);
   }
