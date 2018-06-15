@@ -44,23 +44,25 @@
           <div class="collapse navbar-collapse" id="navbarResponsive">
                 <ul class="navbar-nav ml-auto">
                         <li class="nav-item">
-
+                        {{#if isLoggedIn}}
+                        <!--If logged in, display this-->
+                        <a class="nav-link" href="#" data-target="#inbox">INBOX &emsp;<span class="nav-link badge badge-dark">7</span></a> 
+                        {{else}}
                         <!--If NOT logged in, display this-->  
                           <a class="nav-link" href="#"  data-target="#about">ABOUT</a>
-                        <!--If logged in, display this-->
-                        <!-- <a class="nav-link" href="#" data-target="#inbox">INBOX &emsp;<span class="nav-link badge badge-dark">7</span></a> -->
-
+                        {{/if}}
                         </li>
                         <li class="nav-item">
                           <a class="nav-link" href="#">FAQ</a>
                         </li>
                         <li class="nav-item">
-
-                        <!--If NOT logged in, display this-->  
-                            <a class="nav-link" href="#" data-toggle="modal" data-target="#at-login">LOGIN</a>
+                        {{#if isLoggedIn}}
                         <!--If logged in, display this-->
-                            <!-- <a class="nav-link" id="logout" href="#"  data-target="#logout">LOG OUT</a> -->
-
+                            <a class="nav-link" id="logout" href="/logout"  data-target="#logout">LOG OUT</a> 
+                        {{else}}
+                        <!--If NOT logged in, display this-->  
+                            <a class="nav-link" href="/login" data-toggle="modal" data-target="#at-login">LOGIN</a>
+                        {{/if}}
                         </li>
                       </ul>
           </div>
@@ -142,6 +144,31 @@
     </div>
 </div>
 <div class="card-deck">
+    <div class="flip">
+        <div class="card">
+            <div class="face front">
+                <div class="well well-sm inner">
+                    <img class="card-img-top" src="../img/plate.png" alt="Card image cap">
+                    <div class="card-img-overlay">
+                        <h5 class="card-title">184 TPQ</h5>
+                    </div>
+                    <div class="card-body">
+                        <h6 class="card-title">Make</h6>
+                        <h6 class="card-title">Model</h6>
+                        <h6 class="card-title">Year</h6>
+                    </div>
+                    <div class="card-footer">
+                        <button type="submit" class="btn-inbox">INBOX</button>
+                    </div>
+                </div>
+            </div>
+            <div class="face back">
+                <div class="well well-sm inner">Back
+                    <p class="card-title">hello</p>
+                </div>
+            </div>
+        </div>
+    </div>
   <div class="card">
     <img class="card-img-top" src="../img/plate.png" alt="Card image cap">
     <div class="card-img-overlay">
