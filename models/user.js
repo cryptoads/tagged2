@@ -15,7 +15,7 @@ module.exports = (sequelize, DataTypes) => {
         }
      },
     githubid: DataTypes.STRING,
-    state: DataTypes.STRING,
+    state: DataTypes.STRING(2),
     password:DataTypes.STRING,
     membership: DataTypes.INTEGER
 
