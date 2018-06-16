@@ -18,14 +18,12 @@ function tagExists(tag, state){
    }
 )}
 
-
-/* GET home page. */
-router.get('/', function(req, res, next) { 
-    if(req.isAuthenticated()){
+function renderpage(req, res){
+        if(req.isAuthenticated()){
      models.user.findById(req.user,{
         include: [{
             model: models.tag,
-            include: [{model: models.message, attributes:['message', 'createdAt']}],
+            include: [{model: models.message, attributes:['message']}],
             attributes:['tagnum']
          }]
      })
@@ -33,8 +31,28 @@ router.get('/', function(req, res, next) {
         res.render('index', {
             isLoggedIn: req.isAuthenticated(),
             tagnum: user.tags,
-            message: user.tags,
-            created: user.tags
+            message: user.tags
+    })
+})}else{
+        res.render('index')
+    }
+}
+
+/* GET home page. */
+router.get('/', function(req, res, next) { 
+    if(req.isAuthenticated()){
+     models.user.findById(req.user,{
+        include: [{
+            model: models.tag,
+            include: [{model: models.message, attributes:['message']}],
+            attributes:['tagnum']
+         }]
+     })
+    .then(user => {
+        res.render('index', {
+            isLoggedIn: req.isAuthenticated(),
+            tagnum: user.tags,
+            message: user.tags
     })
 })}else{
         res.render('index')
@@ -42,23 +60,23 @@ router.get('/', function(req, res, next) {
 });
 
 
-// router.get('/test', (req,res) =>{ 
-//     if(req.isAuthenticated()){
-//      models.user.findById(req.user,{
-//         include: [{
-//             model: models.tag,
-//             include: [{model: models.message, attributes:['message']}],
-//             attributes:['tagnum']
-//          }]
-//      })
-//     .then(user => {
-//         res.render('error', {
-//             message: JSON.stringify(user.tags, null, "\t")
-//     })
-// })}else{
-//         res.render('index')
-//     }
-// });
+router.get('/test', (req,res) =>{ 
+    if(req.isAuthenticated()){
+     models.user.findById(req.user,{
+        include: [{
+            model: models.tag,
+            include: [{model: models.message, attributes:['message']}],
+            attributes:['tagnum']
+         }]
+     })
+    .then(user => {
+        res.render('error', {
+            message: JSON.stringify(user.tags, null, "\t")
+    })
+})}else{
+        res.render('index')
+    }
+});
 
 
 
@@ -82,65 +100,57 @@ router.get('/:state/:id', (req, res) => {
 
 router.post('/', (req, res)=>{
     // if(req.isAuthenticated()){
-    const newTagNum = req.body.tagNum;
-    const newState = req.body.state;
+    const newTagNum = req.body.tagNum.toUpperCase().replace(/\s/g, '');
+    const newState = req.body.state.toUpperCase().replace(/\s/g, '');
     const newMessage =  req.body.newMessage;
 
     tagExists(newTagNum, newState).then(tag => {
         if(tag != null){
-        models.message.create({
-        userId: req.user,
-        tagId: tag,
-        message: newMessage
-     })
+
+        const myMessage = models.message.build({userId: req.user, tagId: tag, message: newMessage})
+        .save().then(done =>{renderpage(req, res)})
     }else{
-        models.tag.create({
-            tagnum: newTagNum, 
-            state: newState 
-        }).then(tag => {
-            models.message.create({
-                userId: req.user,
-                tagId: tag.id,
-                message: newMessage
-            })
+        const newTag = models.tag.build({tagnum: newTagNum, state: newState })
+        .save()
+        .then(tag => {
+            const myMessage = models.message.build({userId: req.user, tagId: tag.id, message: newMessage})
+            .save().then(done =>{renderpage(req, res)})
         })
     }
- }).then(done => {
-    res.render('index', {
-        isLoggedIn: req.isAuthenticated()
-    });
  })
 })
 
 
 router.post('/addtag', (req, res) => {
-    const newTagNum = req.body.tagNum;
-    const newState = req.body.state;
-    tagExists(newTagNum, newState).then(tag => {
+    const newTagNum = req.body.tagNum.toUpperCase().replace(/\s/g, '');
+    const newState = req.body.state.toUpperCase().replace(/\s/g, '');
+    
+
+ var promise = new Promise((resolve)=>{
+        tagExists(newTagNum, newState).then(tag => {
         if(tag != null){
-            models.tag.findById(tag).then(currentTag => {
+            models.tag.findById(tag)
+            .then(currentTag => {
                 models.user.findById(req.user)
                     .then(user =>{
-                        currentTag.setUsers([user])
+                        currentTag.setUsers([user]).then(done=>{resolve()})     
                     })           
             })
     }else{
-        models.tag.create({
-            tagnum: newTagNum, 
-            state: newState 
-        }).then(tag => {
+      const newTag = models.tag.build({tagnum: newTagNum, state: newState })
+        .save().then(tag => {
             models.user.findById(req.user)
-            .then(user=>{
-                tag.setUsers([user])
-            })
+                .then(user=>{
+                    tag.setUsers([user]).then(done=>{resolve()})   
+                    
+            }) 
         })
     }
- }).then(done => {
-    res.render('index', {
-        isLoggedIn: req.isAuthenticated()
-    });
- })
 })
+})
+    promise.then(done=>{renderpage(req,res)})
+ }) 
+
 
 
 module.exports = router;
