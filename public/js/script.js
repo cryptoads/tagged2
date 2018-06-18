@@ -14,33 +14,33 @@ $(document).ready(function(){
     registerUser();
     });
 
-    var registerUser = () =>{
-        let user = $("#signup-email").val();
-        let pass = $("#signup-password").val();
-        let vin = $("#vin").val();
-        let plate = $("#licenseplate").val();
-        $.get({
-            url: `https://vpic.nhtsa.dot.gov/api/vehicles/DecodeVinValues/${vin}?format=json`,
-            method: "GET",
-            success: function (response) {
-                let make = response.Results[0].Make;
-                let model = response.Results[0].Model;
-                let year = response.Results[0].ModelYear;
+    // var registerUser = () =>{
+    //     let user = $("#signup-email").val();
+    //     let pass = $("#signup-password").val();
+    //     let vin = $("#vin").val();
+    //     let plate = $("#licenseplate").val();
+    //     $.get({
+    //         url: `https://vpic.nhtsa.dot.gov/api/vehicles/DecodeVinValues/${vin}?format=json`,
+    //         method: "GET",
+    //         success: function (response) {
+    //             let make = response.Results[0].Make;
+    //             let model = response.Results[0].Model;
+    //             let year = response.Results[0].ModelYear;
             
-            }.then((res) => {
-                let make = response.Results[0].Make;
-                let model = response.Results[0].Model;
-                let year = response.Results[0].ModelYear;
-                console.log(make, model, year)
-                res.render('index', {
-                    make: make,
-                    model: model,
-                    year: year
-                })
-            })
+    //         }.then((res) => {
+    //             let make = response.Results[0].Make;
+    //             let model = response.Results[0].Model;
+    //             let year = response.Results[0].ModelYear;
+    //             console.log(make, model, year)
+    //             res.render('index', {
+    //                 make: make,
+    //                 model: model,
+    //                 year: year
+    //             })
+    //         })
         
-        })
-    }
+    //     })
+    // }
 
     $(".btn-inbox").click(function (e) {
         e.preventDefault()

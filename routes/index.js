@@ -3,7 +3,7 @@ var router = express.Router();
 var models = require('../models');
 const ensureAuthenticated = require('../auth').ensureAuthenticated;
 const bodyParser = require('body-parser');
-
+const request= require('request');
 
 
 
@@ -18,6 +18,28 @@ function tagExists(tag, state){
    }
 )}
 
+function renderpage(req, res){
+        if(req.isAuthenticated()){
+     models.user.findById(req.user,{
+        include: [{
+            model: models.tag,
+            include: [{model: models.message, attributes:['message', 'createdAt']}],
+            attributes:['tagnum, make, model, year']
+         }]
+     })
+    .then(user => {
+        res.render('index', {
+            isLoggedIn: req.isAuthenticated(),
+            tagnum: user.tags,
+            message: user.tags,
+            make: user.tags,
+            model: user.tags,
+            year: user.tags
+    })
+})}else{
+        res.render('index')
+    }
+}
 
 /* GET home page. */
 router.get('/', function(req, res, next) { 
@@ -26,7 +48,7 @@ router.get('/', function(req, res, next) {
         include: [{
             model: models.tag,
             include: [{model: models.message, attributes:['message', 'createdAt']}],
-            attributes:['tagnum']
+            attributes:['tagnum, make, model, year']
          }]
      })
     .then(user => {
@@ -34,7 +56,9 @@ router.get('/', function(req, res, next) {
             isLoggedIn: req.isAuthenticated(),
             tagnum: user.tags,
             message: user.tags,
-            created: user.tags
+            make: user.tags,
+            model: user.tags,
+            year: user.tags
     })
 })}else{
         res.render('index')
@@ -47,7 +71,7 @@ router.get('/', function(req, res, next) {
 //      models.user.findById(req.user,{
 //         include: [{
 //             model: models.tag,
-//             include: [{model: models.message, attributes:['message']}],
+//             include: [{model: models.message, attributes:['message', 'createdAt']}],
 //             attributes:['tagnum']
 //          }]
 //      })
@@ -82,65 +106,75 @@ router.get('/:state/:id', (req, res) => {
 
 router.post('/', (req, res)=>{
     // if(req.isAuthenticated()){
-    const newTagNum = req.body.tagNum;
-    const newState = req.body.state;
+    const newTagNum = req.body.tagNum.toUpperCase().replace(/\s/g, '');
+    const newState = req.body.state.toUpperCase().replace(/\s/g, '');
     const newMessage =  req.body.newMessage;
+
 
     tagExists(newTagNum, newState).then(tag => {
         if(tag != null){
-        models.message.create({
-        userId: req.user,
-        tagId: tag,
-        message: newMessage
-     })
+
+        const myMessage = models.message.build({userId: req.user, tagId: tag, message: newMessage})
+        .save().then(done =>{renderpage(req, res)})
     }else{
-        models.tag.create({
-            tagnum: newTagNum, 
-            state: newState 
-        }).then(tag => {
-            models.message.create({
-                userId: req.user,
-                tagId: tag.id,
-                message: newMessage
-            })
+        const newTag = models.tag.build({tagnum: newTagNum, state: newState })
+        .save()
+        .then(tag => {
+            const myMessage = models.message.build({userId: req.user, tagId: tag.id, message: newMessage})
+            .save().then(done =>{renderpage(req, res)})
         })
     }
- }).then(done => {
-    res.render('index', {
-        isLoggedIn: req.isAuthenticated()
-    });
  })
 })
 
 
 router.post('/addtag', (req, res) => {
-    const newTagNum = req.body.tagNum;
-    const newState = req.body.state;
-    tagExists(newTagNum, newState).then(tag => {
-        if(tag != null){
-            models.tag.findById(tag).then(currentTag => {
-                models.user.findById(req.user)
+    const newTagNum = req.body.tagNum.toUpperCase().replace(/\s/g, '');
+    const newState = req.body.state.toUpperCase().replace(/\s/g, '');
+    const vin = req.body.vin.toUpperCase().replace(/\s/g, '');
+    
+    var promise = new Promise((resolve)=>{
+        tagExists(newTagNum, newState)
+        .then(tag => {
+            if(tag != null) {
+                models.tag.findById(tag)
+                .then(currentTag => {
+                    models.user.findById(req.user)
                     .then(user =>{
-                        currentTag.setUsers([user])
+                        currentTag.setUsers([user]).then(done=>{resolve()})     
                     })           
-            })
-    }else{
-        models.tag.create({
-            tagnum: newTagNum, 
-            state: newState 
-        }).then(tag => {
-            models.user.findById(req.user)
-            .then(user=>{
-                tag.setUsers([user])
-            })
+                })
+            }else{
+                if (vin !== null) {
+                    var promise = new Promise((resolve)=>{
+                        return request(`https://vpic.nhtsa.dot.gov/api/vehicles/DecodeVinValues/${vin}?format=json`, function (err, res, body) {
+                            if (err) { return console.log(err); }
+                            var make = JSON.parse(res.body).Results[0].Make;
+                            var model = JSON.parse(res.body).Results[0].Model;
+                            var year = JSON.parse(res.body).Results[0].ModelYear;
+                            console.log(make, model, year);
+                        });
+                    })
+                    promise.then(done=>{})
+                }
+                const newTag = models.tag.build({tagnum: newTagNum, state: newState, vin: vin, make: make, model: model, year: year })
+                .save()
+                
+                .then(tag => {
+                    models.user.findById(req.user)
+                .then(user=>{
+                    tag.setUsers([user]).then(done=>{resolve()})   
+                    
+                }) 
+                })
+            }
+        }).then(() => {
+        renderpage(req, res)
         })
-    }
- }).then(done => {
-    res.render('index', {
-        isLoggedIn: req.isAuthenticated()
+    
     });
- })
-})
 
+    promise.then(done=>{renderpage(req,res)})
+ }) 
 
 module.exports = router;
