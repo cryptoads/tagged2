@@ -24,7 +24,7 @@ function renderpage(req, res){
         include: [{
             model: models.tag,
             include: [{model: models.message, attributes:['message', 'createdAt']}],
-            attributes:['tagnum, make, model, year']
+            attributes:['tagnum', 'make', 'model', 'year']
          }]
      })
     .then(user => {
@@ -48,7 +48,7 @@ router.get('/', function(req, res, next) {
         include: [{
             model: models.tag,
             include: [{model: models.message, attributes:['message', 'createdAt']}],
-            attributes:['tagnum, make, model, year']
+            attributes:['tagnum', 'make', 'model', 'year']
          }]
      })
     .then(user => {
